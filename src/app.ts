@@ -1,5 +1,6 @@
 import express from "express";
 import authRoutes from "./modules/auth/routes/auth.routes.js";
+import { authenticate } from "./modules/auth/middlewares/auth.middleware.js";
 
 const app = express();
 
@@ -10,4 +11,7 @@ app.get("/health", (_, res) => {
 });
 app.use("/auth", authRoutes);
 
+app.get("/me", authenticate, (req, res) => {
+  res.json({ userId: req.userId });
+});
 export default app;
