@@ -1,6 +1,7 @@
-import type { Request, Response } from "express";
+import { application, type Request, type Response } from "express";
 import mongoose from "mongoose";
 import { JobApplication } from "../models/JobApplication.models.js";
+import { ApplicationStatusHistory } from "../models/ApplicationStatusHistory.models.js";
 
 // Create a new job application for the authenticated user
 
@@ -71,6 +72,17 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
 
   if (!application) {
     return res.status(404).json({ message: "Application not found" });
+  }
+
+  const previousStatus = application.status;
+
+  if (previousStatus !== status) {
+    await ApplicationStatusHistory.create({
+      applicationId: application._id,
+      userId: userObjectId,
+      fromStatus: previousStatus,
+      toStatus: status,
+    });
   }
 
   return res.json(application);
