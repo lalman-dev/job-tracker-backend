@@ -1,7 +1,7 @@
 import { application, type Request, type Response } from "express";
 import mongoose from "mongoose";
-import { JobApplication } from "../models/JobApplication.models.js";
-import { ApplicationStatusHistory } from "../models/ApplicationStatusHistory.models.js";
+import { JobApplication } from "../models/jobApplication.models.js";
+import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models.js";
 
 // Create a new job application for the authenticated user
 
