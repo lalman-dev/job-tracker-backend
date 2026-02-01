@@ -2,6 +2,7 @@ import express from "express";
 import authRoutes from "./modules/auth/routes/auth.routes.js";
 import { authenticate } from "./modules/auth/middlewares/auth.middleware.js";
 import applicationRoutes from "./modules/applications/routes/application.routes.js";
+import applicationHistoryRoutes from "./modules/applications/routes/applicationHistory.routes.js";
 
 const app = express();
 
@@ -17,4 +18,7 @@ app.get("/me", authenticate, (req, res) => {
 });
 
 app.use("/applications", applicationRoutes);
+
+app.use("/applications", applicationHistoryRoutes);
+
 export default app;
