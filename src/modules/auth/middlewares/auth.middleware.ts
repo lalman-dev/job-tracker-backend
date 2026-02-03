@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import { AppError } from "../../../utils/AppError.js";
 import jwt from "jsonwebtoken";
 
 interface JwtPayload {
@@ -13,12 +14,12 @@ export const authenticate = (
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ message: "Authorization Header is missing" });
+    throw new AppError("Authorization Header is missing", 401);
   }
 
   const [scheme, token] = authHeader.split(" ");
   if (scheme !== "Bearer" || !token) {
-    return res.status(401).json({ message: "Invalid authorization format" });
+    throw new AppError("Invalid authorization format", 401);
   }
 
   try {
@@ -30,6 +31,6 @@ export const authenticate = (
     req.userId = decoded.userId;
     next();
   } catch {
-    return res.status(401).json({ message: "Invalid or expired token" });
+    throw new AppError("Invalid or expired token", 401);
   }
 };
