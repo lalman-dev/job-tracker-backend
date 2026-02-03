@@ -2,17 +2,18 @@ import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import { User } from "../models/user.models.js";
 import { generateToken } from "../../../utils/jwt.js";
+import { AppError } from "../../../utils/AppError.js";
 
 export const register = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Email and Password is required" });
+    throw new AppError("Email and Password is required", 400);
   }
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    return res.status(409).json({ message: "User already exists" });
+    throw new AppError("User already exists", 409);
   }
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({ email, password: hashedPassword });
@@ -32,17 +33,17 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Email and Password are required" });
+    throw new AppError("Email and Password are required", 400);
   }
 
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(401).json({ message: "Invalid credentials" });
+    throw new AppError("Invalid credentials", 401);
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.status(401).json({ message: "Invalid credentials" });
+    throw new AppError("Invalid credentials", 401);
   }
 
   const token = generateToken(user._id.toString());
