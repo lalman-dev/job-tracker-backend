@@ -1,19 +1,19 @@
-import { application, type Request, type Response } from "express";
+import type { Request, Response } from "express";
 import mongoose from "mongoose";
 import { JobApplication } from "../models/jobApplication.models.js";
 import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models.js";
+import { AppError } from "../../../utils/AppError.js";
 
-// Create a new job application for the authenticated user
-
+// Create a new job application
 export const createApplication = async (req: Request, res: Response) => {
   const { company, role } = req.body;
 
   if (!req.userId) {
-    return res.status(401).json({ message: "Unauthorized" });
+    throw new AppError("Unauthorized", 401);
   }
 
   if (!company || !role) {
-    return res.status(400).json({ message: "Company and role are required" });
+    throw new AppError("Company and role are required", 400);
   }
 
   const userObjectId = new mongoose.Types.ObjectId(req.userId);
@@ -27,11 +27,10 @@ export const createApplication = async (req: Request, res: Response) => {
   return res.status(201).json(application);
 };
 
-// Get all job applications for the authenticated user
-
+// Get all applications
 export const getApplications = async (req: Request, res: Response) => {
   if (!req.userId) {
-    return res.status(401).json({ message: "Unauthorized" });
+    throw new AppError("Unauthorized", 401);
   }
 
   const userObjectId = new mongoose.Types.ObjectId(req.userId);
@@ -43,38 +42,39 @@ export const getApplications = async (req: Request, res: Response) => {
   return res.json(applications);
 };
 
-// Update application status (user-scoped)
-
+// Update application status
 export const updateApplicationStatus = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { status } = req.body;
 
   if (!req.userId) {
-    return res.status(401).json({ message: "Unauthorized" });
+    throw new AppError("Unauthorized", 401);
   }
 
   if (!id || Array.isArray(id)) {
-    return res.status(400).json({ message: "Invalid application id" });
+    throw new AppError("Invalid application id", 400);
   }
 
   if (!status) {
-    return res.status(400).json({ message: "Status is required" });
+    throw new AppError("Status is required", 400);
   }
 
   const userObjectId = new mongoose.Types.ObjectId(req.userId);
   const applicationObjectId = new mongoose.Types.ObjectId(id);
 
-  const application = await JobApplication.findOneAndUpdate(
-    { _id: applicationObjectId, userId: userObjectId },
-    { status },
-    { new: true },
-  );
+  const application = await JobApplication.findOne({
+    _id: applicationObjectId,
+    userId: userObjectId,
+  });
 
   if (!application) {
-    return res.status(404).json({ message: "Application not found" });
+    throw new AppError("Application not found", 404);
   }
 
   const previousStatus = application.status;
+
+  application.status = status;
+  await application.save();
 
   if (previousStatus !== status) {
     await ApplicationStatusHistory.create({
@@ -88,17 +88,16 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
   return res.json(application);
 };
 
-// Delete an application (user-scoped)
-
+// Delete application
 export const deleteApplication = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   if (!req.userId) {
-    return res.status(401).json({ message: "Unauthorized" });
+    throw new AppError("Unauthorized", 401);
   }
 
   if (!id || Array.isArray(id)) {
-    return res.status(400).json({ message: "Invalid application id" });
+    throw new AppError("Invalid application id", 400);
   }
 
   const userObjectId = new mongoose.Types.ObjectId(req.userId);
@@ -110,7 +109,7 @@ export const deleteApplication = async (req: Request, res: Response) => {
   });
 
   if (!deleted) {
-    return res.status(404).json({ message: "Application not found" });
+    throw new AppError("Application not found", 404);
   }
 
   return res.status(204).send();
