@@ -2,6 +2,7 @@ import type { Response, Request } from "express";
 import mongoose from "mongoose";
 import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models.js";
 import { JobApplication } from "../models/jobApplication.models.js";
+import { AppError } from "../../../utils/AppError.js";
 
 export const getApplicationStatusHistory = async (
   req: Request,
@@ -10,15 +11,11 @@ export const getApplicationStatusHistory = async (
   const { id } = req.params;
 
   if (!req.userId) {
-    return res.status(401).json({
-      message: "Unauthourized",
-    });
+    throw new AppError("Unauthorized", 401);
   }
 
   if (!id || Array.isArray(id)) {
-    return res.status(400).json({
-      message: "Invalid application id",
-    });
+    throw new AppError("Invalid Application id", 400);
   }
 
   const userObjectId = new mongoose.Types.ObjectId(req.userId);
@@ -31,9 +28,7 @@ export const getApplicationStatusHistory = async (
   });
 
   if (!applicationExists) {
-    return res.status(404).json({
-      message: "Application not found",
-    });
+    throw new AppError("Application not found", 404);
   }
 
   const history = await ApplicationStatusHistory.find({
