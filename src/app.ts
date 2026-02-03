@@ -3,6 +3,7 @@ import authRoutes from "./modules/auth/routes/auth.routes.js";
 import { authenticate } from "./modules/auth/middlewares/auth.middleware.js";
 import applicationRoutes from "./modules/applications/routes/application.routes.js";
 import applicationHistoryRoutes from "./modules/applications/routes/applicationHistory.routes.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
 const app = express();
 
@@ -20,5 +21,7 @@ app.get("/me", authenticate, (req, res) => {
 app.use("/applications", applicationRoutes);
 
 app.use("/applications", applicationHistoryRoutes);
+
+app.use(errorHandler);
 
 export default app;
