@@ -1,5 +1,14 @@
 import request from "supertest";
 import app from "../../app.js";
+import { connectTestDb, disconnectTestDb } from "../setup/testDb.js";
+
+beforeAll(async () => {
+  await connectTestDb();
+});
+
+afterAll(async () => {
+  await disconnectTestDb();
+});
 
 describe("Auth Controller", () => {
   it("should register a new user", async () => {
