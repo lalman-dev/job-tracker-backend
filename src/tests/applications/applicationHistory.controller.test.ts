@@ -32,7 +32,7 @@ describe("Application Status History", () => {
     await request(app)
       .patch(`/applications/${applicationId}`)
       .set("Authorization", `Bearer ${token}`)
-      .send({ status: "interview" });
+      .send({ status: "INTERVIEW" });
 
     const history = await request(app)
       .get(`/applications/${applicationId}/history`)
