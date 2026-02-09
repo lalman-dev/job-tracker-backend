@@ -52,7 +52,7 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
   }
 
   if (!id || Array.isArray(id)) {
-    throw new AppError("Invalid application id", 400);
+    throw new AppError("Invalid Application id", 400);
   }
 
   if (!status) {
@@ -73,9 +73,6 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
 
   const previousStatus = application.status;
 
-  application.status = status;
-  await application.save();
-
   if (previousStatus !== status) {
     await ApplicationStatusHistory.create({
       applicationId: application._id,
@@ -84,6 +81,9 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
       toStatus: status,
     });
   }
+
+  application.status = status;
+  await application.save();
 
   return res.json(application);
 };
