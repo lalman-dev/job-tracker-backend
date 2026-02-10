@@ -30,7 +30,7 @@ afterAll(async () => {
 describe("Application Status History", () => {
   it("should record status change", async () => {
     await request(app)
-      .patch(`/applications/${applicationId}`)
+      .patch(`/applications/${applicationId}/status`)
       .set("Authorization", `Bearer ${token}`)
       .send({ status: "INTERVIEW" });
 
