@@ -18,6 +18,9 @@ const config: Config = {
       },
     ],
   },
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["text", "lcov"],
 };
 
 export default config;
