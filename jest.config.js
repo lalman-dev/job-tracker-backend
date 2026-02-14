@@ -1,8 +1,4 @@
-import "dotenv/config";
-
-import type { Config } from "jest";
-
-const config: Config = {
+export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
   extensionsToTreatAsEsm: [".ts"],
@@ -20,6 +16,5 @@ const config: Config = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageReporters: ["text", "lcov"],
+  setupFiles: ["<rootDir>/src/tests/setup.ts"],
 };
-
-export default config;
