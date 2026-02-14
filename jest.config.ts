@@ -1,5 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config({ path: ".env.test" });
+import "dotenv/config";
 
 import type { Config } from "jest";
 
