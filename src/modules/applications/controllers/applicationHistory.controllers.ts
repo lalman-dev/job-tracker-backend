@@ -1,8 +1,8 @@
 import type { Response, Request } from "express";
 import mongoose from "mongoose";
-import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models.js";
-import { JobApplication } from "../models/jobApplication.models.js";
-import { AppError } from "../../../utils/AppError.js";
+import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models";
+import { JobApplication } from "../models/jobApplication.models";
+import { AppError } from "../../../utils/AppError";
 
 export const getApplicationStatusHistory = async (
   req: Request,

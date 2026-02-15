@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import mongoose from "mongoose";
-import { JobApplication } from "../models/jobApplication.models.js";
-import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models.js";
-import { AppError } from "../../../utils/AppError.js";
+import { JobApplication } from "../models/jobApplication.models";
+import { ApplicationStatusHistory } from "../models/applicationStatusHistory.models";
+import { AppError } from "../../../utils/AppError";
 
 // Create a new job application
 export const createApplication = async (req: Request, res: Response) => {

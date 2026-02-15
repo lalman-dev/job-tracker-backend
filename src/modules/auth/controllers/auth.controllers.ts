@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
-import { User } from "../models/user.models.js";
-import { generateToken } from "../../../utils/jwt.js";
-import { AppError } from "../../../utils/AppError.js";
+import { User } from "../models/user.models";
+import { generateToken } from "../../../utils/jwt";
+import { AppError } from "../../../utils/AppError";
 
 export const register = async (req: Request, res: Response) => {
   const { email, password } = req.body;

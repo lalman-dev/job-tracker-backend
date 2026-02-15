@@ -4,13 +4,13 @@ import {
   getApplications,
   updateApplicationStatus,
   deleteApplication,
-} from "../controllers/application.controllers.js";
-import { authenticate } from "../../auth/middlewares/auth.middleware.js";
-import { validate } from "../../../utils/validate.js";
+} from "../controllers/application.controllers";
+import { authenticate } from "../../auth/middlewares/auth.middleware";
+import { validate } from "../../../utils/validate";
 import {
   createApplicationSchema,
   updateApplicationStatusSchema,
-} from "../validations/application.validation.js";
+} from "../validations/application.validation";
 
 const router = Router();
 
