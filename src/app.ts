@@ -1,9 +1,9 @@
 import express from "express";
-import authRoutes from "./modules/auth/routes/auth.routes.js";
-import { authenticate } from "./modules/auth/middlewares/auth.middleware.js";
-import applicationRoutes from "./modules/applications/routes/application.routes.js";
-import applicationHistoryRoutes from "./modules/applications/routes/applicationHistory.routes.js";
-import { errorHandler } from "./middlewares/error.middleware.js";
+import authRoutes from "./modules/auth/routes/auth.routes";
+import { authenticate } from "./modules/auth/middlewares/auth.middleware";
+import applicationRoutes from "./modules/applications/routes/application.routes";
+import applicationHistoryRoutes from "./modules/applications/routes/applicationHistory.routes";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
