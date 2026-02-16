@@ -8,5 +8,6 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src"]
 }
