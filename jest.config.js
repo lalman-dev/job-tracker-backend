@@ -1,5 +1,6 @@
 export default {
   testEnvironment: "node",
+  moduleFileExtensions: ["ts", "js", "json"],
   transform: {
     "^.+\\.(t|j)sx?$": [
       "@swc/jest",
