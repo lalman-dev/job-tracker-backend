@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "target": "esnext",
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "target": "es2022",
     "types": ["node", "jest"],
     "strict": true,
     "verbatimModuleSyntax": true,
