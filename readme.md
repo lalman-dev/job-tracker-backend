@@ -8,11 +8,13 @@ This project is intentionally built as a production-style backend, focusing on:
 
 - 🔐 authentication and ownership enforcement
 
-- 🧠 thoughtful data modeling
+- 🧠 thoughtful, audit-friendly data modeling
 
-- 📜 auditability of state changes
+- 📜 immutable state transition history
 
 - 🧩 incremental, maintainable architecture
+
+- 🛡️ correctness over convenience
 
 ---
 
@@ -20,19 +22,29 @@ This project is intentionally built as a production-style backend, focusing on:
 
 🟢 Core backend functionality implemented
 
-The backend currently supports:
+🟢 Integration-level controller testing in place
 
-- 🔑 user authentication with JWT
+🟡 CI temporarily disabled (environment resolution inconsistencies)
 
-- 👤 user-scoped job application management
+The backend currently includes:
 
-- 🔄 controlled application status updates
+- 🔑 JWT-based authentication
 
-- 🕒 immutable status history tracking
+-👤 strict user-scoped data access
 
-- 🛡️ strict type safety and ownership enforcement
+-💼 full job application CRUD
 
-The project continues to evolve with an emphasis on correctness and stability, not feature churn.
+-🔄 controlled status transitions
+
+-🕒 append-only status history tracking
+
+-🛡️ centralized error handling
+
+-🧪 controller-level integration tests (MongoMemoryServer)
+
+-📏 strict TypeScript configuration (ESM)
+
+This project prioritizes stability, data correctness, and intentional design — not feature churn.
 
 ---
 
@@ -51,6 +63,81 @@ The project continues to evolve with an emphasis on correctness and stability, n
 - 🧠 Strict TypeScript configuration
 
 - 🧾 Intentional, well-structured Git history
+
+---
+
+## ✨ Core Capabilities
+
+### 🔐 Authentication
+
+-Secure user registration & login
+
+-JWT token issuance
+
+-Request-level user identity injection
+
+-Ownership validation at query level
+
+💼 Job Applications
+
+-Create, list, update status, delete
+
+-All operations are strictly user-scoped
+
+-ObjectId validation and casting
+
+-Controlled status enum enforcement
+
+🕒 Status History (Audit Trail)
+
+-Separate history collection
+
+-Immutable, append-only records
+
+-Captures:
+
+    -previous status
+
+    -new status
+
+    -timestamp
+
+-Only records actual transitions (no redundant writes)
+
+🛡️ Cross-Cutting Architecture
+
+-Centralized AppError abstraction
+
+-Global error middleware
+
+-Zod-based request validation layer
+
+-Explicit separation: routes → controllers → models
+
+-Typed Express request extension (req.userId)
+
+---
+
+## 🧪 Testing Strategy
+
+-Controller-level integration tests
+
+-In-memory MongoDB via mongodb-memory-server
+
+-Real Mongoose models (no mocking)
+
+-Tests cover:
+
+    -authentication flow
+
+    -user isolation
+
+    -status transitions
+
+    -history integrity
+
+CI integration was attempted but is temporarily disabled due to ESM + Jest resolution inconsistencies between macOS and Linux environments.
+The project will revisit CI after containerizing the environment.
 
 ---
 
@@ -121,7 +208,7 @@ History is append-only and immutable
 
 ---
 
-## 🧠 Project Philosophy
+## 🧠 Design Philosophy
 
 This project deliberately prioritizes:
 
@@ -131,7 +218,9 @@ This project deliberately prioritizes:
 
 - 🧭 explicit behavior over abstractions
 
-- ✅ correctness over shortcuts
+- 🔒 data isolation over convenience
+
+- 🧱 modular structure over flat architecture
 
 Several features are intentionally deferred to avoid premature complexity.
 
@@ -139,22 +228,37 @@ Several features are intentionally deferred to avoid premature complexity.
 
 ## 🗺️ Roadmap
 
-Planned next steps:
+Near Term
 
-- 🧪 request validation
+-📄 Pagination & filtering for applications
 
-- 🚨 centralized error handling
+-📝 Notes / follow-ups feature
 
-- 📘 improved API documentation
+-📊 Improved error branch test coverage
 
-- 📝 notes and follow-ups on applications
+-📘 OpenAPI / Swagger documentation
 
-- 🧪 lightweight testing strategy
+Mid Term
 
-A deeper technical breakdown will be added as the project matures.
+-🧩 Service layer abstraction
+
+-🧾 Structured logging
+
+-🧰 Rate limiting
+
+-🐳 Dockerized development + CI
+
+Long Term
+
+-🔁 Refresh token strategy
+
+-🛡️ Role-based access control (RBAC)
+
+-🚀 Production deployment configuration
 
 ---
 
 # 👤 Author
 
 Lalman
+Early-career backend engineer focused on building stable, intentionally designed systems with strong ownership and architectural clarity.
