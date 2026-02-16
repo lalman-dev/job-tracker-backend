@@ -30,19 +30,19 @@ The backend currently includes:
 
 - 🔑 JWT-based authentication
 
--👤 strict user-scoped data access
+- 👤 strict user-scoped data access
 
--💼 full job application CRUD
+- 💼 full job application CRUD
 
--🔄 controlled status transitions
+- 🔄 controlled status transitions
 
--🕒 append-only status history tracking
+- 🕒 append-only status history tracking
 
--🛡️ centralized error handling
+- 🛡️ centralized error handling
 
--🧪 controller-level integration tests (MongoMemoryServer)
+- 🧪 controller-level integration tests (MongoMemoryServer)
 
--📏 strict TypeScript configuration (ESM)
+- 📏 strict TypeScript configuration (ESM)
 
 This project prioritizes stability, data correctness, and intentional design — not feature churn.
 
@@ -70,71 +70,69 @@ This project prioritizes stability, data correctness, and intentional design —
 
 ### 🔐 Authentication
 
--Secure user registration & login
+- Secure user registration & login
 
--JWT token issuance
+- JWT token issuance
 
--Request-level user identity injection
+- Request-level user identity injection
 
--Ownership validation at query level
+- Ownership validation at query level
 
 💼 Job Applications
 
--Create, list, update status, delete
+- Create, list, update status, delete
 
--All operations are strictly user-scoped
+- All operations are strictly user-scoped
 
--ObjectId validation and casting
+- ObjectId validation and casting
 
--Controlled status enum enforcement
+- Controlled status enum enforcement
 
 🕒 Status History (Audit Trail)
 
--Separate history collection
+- Separate history collection
 
--Immutable, append-only records
+- Immutable, append-only records
 
--Captures:
+- Captures:
+  - previous status
 
-    -previous status
+  - new status
 
-    -new status
+  - timestamp
 
-    -timestamp
-
--Only records actual transitions (no redundant writes)
+- Only records actual transitions (no redundant writes)
 
 🛡️ Cross-Cutting Architecture
 
--Centralized AppError abstraction
+- Centralized AppError abstraction
 
--Global error middleware
+- Global error middleware
 
--Zod-based request validation layer
+- Zod-based request validation layer
 
--Explicit separation: routes → controllers → models
+- Explicit separation: routes → controllers → models
 
--Typed Express request extension (req.userId)
+- Typed Express request extension (req.userId)
 
 ---
 
 ## 🧪 Testing Strategy
 
--Controller-level integration tests
+- Controller-level integration tests
 
--In-memory MongoDB via mongodb-memory-server
+- In-memory MongoDB via mongodb-memory-server
 
--Real Mongoose models (no mocking)
+- Real Mongoose models (no mocking)
 
--Tests cover:
+- Tests cover:
+  - authentication flow
 
-    -authentication flow
+  - user isolation
 
-    -user isolation
+  - status transitions
 
-    -status transitions
-
-    -history integrity
+  - history integrity
 
 CI integration was attempted but is temporarily disabled due to ESM + Jest resolution inconsistencies between macOS and Linux environments.
 The project will revisit CI after containerizing the environment.
@@ -230,31 +228,31 @@ Several features are intentionally deferred to avoid premature complexity.
 
 Near Term
 
--📄 Pagination & filtering for applications
+- 📄 Pagination & filtering for applications
 
--📝 Notes / follow-ups feature
+- 📝 Notes / follow-ups feature
 
--📊 Improved error branch test coverage
+- 📊 Improved error branch test coverage
 
--📘 OpenAPI / Swagger documentation
+- 📘 OpenAPI / Swagger documentation
 
 Mid Term
 
--🧩 Service layer abstraction
+- 🧩 Service layer abstraction
 
--🧾 Structured logging
+- 🧾 Structured logging
 
--🧰 Rate limiting
+- 🧰 Rate limiting
 
--🐳 Dockerized development + CI
+- 🐳 Dockerized development + CI
 
 Long Term
 
--🔁 Refresh token strategy
+- 🔁 Refresh token strategy
 
--🛡️ Role-based access control (RBAC)
+- 🛡️ Role-based access control (RBAC)
 
--🚀 Production deployment configuration
+- 🚀 Production deployment configuration
 
 ---
 
